@@ -67,6 +67,8 @@ poetry run python -c "import backend; print('backend import ok')"
 
 Edit `backend/.env` with your own Letta, Tavus, Deepgram, and LiveKit credentials. The example file lists each variable. Nothing in the committed Python package reads those values yet, because the agent source is not in the repo. There is no unit test suite. The import command above is the check.
 
+CI runs this job on Ubuntu 24.04 with Poetry installed on Python 3.12. Poetry installed on Python 3.14 rejects the `livekit-blingfire` wheels in the lockfile, which is what happens if `pipx` uses the default Python on Ubuntu 26.04.
+
 ## Frontend
 
 From a clean clone, in the repository root:

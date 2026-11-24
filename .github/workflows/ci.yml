@@ -25,7 +25,10 @@ jobs:
 
   backend:
     name: Backend install and import
-    runs-on: ubuntu-latest
+    # ubuntu-latest is 26.04, whose default Python is 3.14. pipx then installs
+    # Poetry on 3.14, and that installer rejects livekit-blingfire's
+    # manylinux_2_24 wheels. 24.04 matches the Python this lockfile installs on.
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: backend
@@ -35,7 +38,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Poetry
-        run: pipx install poetry==2.1.3
+        run: pipx install --python python poetry==2.1.3
       - name: Check the lock file
         run: poetry check --lock
       - name: Install dependencies
