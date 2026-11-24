@@ -22,7 +22,7 @@ export default function StreamingTest() {
         },
         body: JSON.stringify({
           prompt: "Tell me a short story about a robot learning to paint.",
-          agentId: "agent-afeee9a5-ad56-48e8-952b-dc8371a75ca4",
+          agentId: process.env.NEXT_PUBLIC_LETTA_AGENT_ID ?? "",
         }),
       });
 

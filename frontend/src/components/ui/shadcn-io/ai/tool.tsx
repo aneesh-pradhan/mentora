@@ -17,7 +17,12 @@ import {
   XCircleIcon,
 } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
-import { CodeBlock } from "@/components/ui/shadcn-io/code-block";
+import {
+  CodeBlock,
+  CodeBlockBody,
+  CodeBlockContent,
+  CodeBlockItem,
+} from "@/components/ui/shadcn-io/code-block";
 
 export type ToolProps = ComponentProps<typeof Collapsible>;
 
@@ -101,7 +106,24 @@ export const ToolInput = ({ className, input, ...props }: ToolInputProps) => (
       Parameters
     </h4>
     <div className="rounded-md bg-muted/50">
-      <CodeBlock code={JSON.stringify(input, null, 2)} language="json" />
+      <CodeBlock
+        data={[
+          {
+            language: "json",
+            filename: "input.json",
+            code: JSON.stringify(input, null, 2) ?? "",
+          },
+        ]}
+        value="json"
+      >
+        <CodeBlockBody>
+          {(item) => (
+            <CodeBlockItem key={item.language} value={item.language}>
+              <CodeBlockContent language="json">{item.code}</CodeBlockContent>
+            </CodeBlockItem>
+          )}
+        </CodeBlockBody>
+      </CodeBlock>
     </div>
   </div>
 );
