@@ -1,0 +1,10 @@
+# Local secrets. Example files (*.env.example) stay tracked.
+.env
+
+# Python bytecode. Do not commit compiled files.
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/

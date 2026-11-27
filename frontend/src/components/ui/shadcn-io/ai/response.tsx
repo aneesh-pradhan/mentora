@@ -9,7 +9,10 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import {
   CodeBlock,
+  CodeBlockBody,
+  CodeBlockContent,
   CodeBlockCopyButton,
+  CodeBlockItem,
 } from "@/components/ui/shadcn-io/code-block";
 import "katex/dist/katex.min.css";
 import hardenReactMarkdown from "harden-react-markdown";
@@ -324,26 +327,39 @@ const components: Options["components"] = {
 
     // Extract code content from children safely
     let code = "";
-    if (
-      isValidElement(children) &&
-      children.props &&
-      typeof (children.props as any).children === "string"
-    ) {
-      code = (children.props as any).children;
-    } else if (typeof children === "string") {
+    if (typeof children === "string") {
       code = children;
+    } else if (isValidElement(children)) {
+      const props: unknown = children.props;
+      if (
+        props &&
+        typeof props === "object" &&
+        "children" in props &&
+        typeof props.children === "string"
+      ) {
+        code = props.children;
+      }
     }
 
     return (
       <CodeBlock
         className={cn("my-4 h-auto", className)}
-        code={code}
-        language={language}
+        data={[{ language, filename: `${language}.txt`, code }]}
+        value={language}
       >
         <CodeBlockCopyButton
           onCopy={() => console.log("Copied code to clipboard")}
           onError={() => console.error("Failed to copy code to clipboard")}
         />
+        <CodeBlockBody>
+          {(item) => (
+            <CodeBlockItem key={item.language} value={item.language}>
+              <CodeBlockContent language={item.language}>
+                {item.code}
+              </CodeBlockContent>
+            </CodeBlockItem>
+          )}
+        </CodeBlockBody>
       </CodeBlock>
     );
   },

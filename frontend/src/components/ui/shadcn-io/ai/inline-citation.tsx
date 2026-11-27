@@ -159,12 +159,17 @@ export const InlineCitationCarouselIndex = ({
       return;
     }
 
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on('select', () => {
+    const update = () => {
+      setCount(api.scrollSnapList().length);
       setCurrent(api.selectedScrollSnap() + 1);
-    });
+    };
+
+    const frame = requestAnimationFrame(update);
+    api.on("select", update);
+    return () => {
+      cancelAnimationFrame(frame);
+      api.off("select", update);
+    };
   }, [api]);
 
   return (

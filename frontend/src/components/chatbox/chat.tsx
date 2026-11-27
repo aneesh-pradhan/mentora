@@ -39,6 +39,7 @@ type ChatMessage = {
 };
 
 const API_BASE_URL = "/api/letta";
+const LETTA_AGENT_ID = process.env.NEXT_PUBLIC_LETTA_AGENT_ID ?? "";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -69,7 +70,7 @@ const Chatbot = () => {
           },
           body: JSON.stringify({
             prompt: prompt,
-            agentId: "agent-afeee9a5-ad56-48e8-952b-dc8371a75ca4", // You'll need to replace this with your actual agent ID
+            agentId: LETTA_AGENT_ID,
           }),
         });
 
@@ -111,7 +112,7 @@ const Chatbot = () => {
           },
           body: JSON.stringify({
             prompt: userMessage,
-            agentId: "agent-afeee9a5-ad56-48e8-952b-dc8371a75ca4",
+            agentId: LETTA_AGENT_ID,
           }),
         });
 
